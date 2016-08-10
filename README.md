@@ -1,6 +1,28 @@
 Asset-Pipeline CDN Gradle Plugin
 ================================
 
+# SiteMinder Update
+
+So that this plugin works under the SOE, we've made a few changes.
+
+- Our build environment runs a 1.7 JDK, the original plugin used 1.8. It was necessary to rebuild the plugin using 1.7.
+- We don't distribute AWS keys/secrets. We rely on an IAM profile set on the build machine (an EC2 instance). The original plugin wrapped AmazonS3Client with another library called Karman. Karman required an key/secret. We've embedded the appropriate parts of Karman in this plugin, when a null/empty key secret is given, the plugin will create an AmazonS3Client using an InstanceProfileCredentialsProvider.
+
+```groovy
+
+// This will use InstanceProfileCredentialsProvider to connect to S3.
+
+assetsCdn {
+    accessKey = ''
+    secretKey = ''
+    region = 'us-west-2'
+    directory = 'assets' // The S3 Bucket
+    storagePath = "assets/${project.name}-${project.version}/"
+    expires = 365
+    gzip = true
+}
+```
+
 # Introduction
 
 The Asset-Pipeline CDN Plugin provides a [Gradle](http://gradle.org) task to automatically upload [Asset-Pipeline](http://github.com/bertramdev/asset-pipeline-core) static assets to CDNs, primarily for [Grails](http://grails.org) apps (however not mandatory).
