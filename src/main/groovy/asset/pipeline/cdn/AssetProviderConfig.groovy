@@ -23,13 +23,9 @@ class AssetProviderConfig {
         if (!provider) {
             throw new InvalidUserDataException("Provider type required in config: 'provider' must be defined")
         }
-        if (!accessKey || !secretKey) {
-            throw new InvalidUserDataException("Credentials required in config: 'accessKey' and 'secretKey' must be defined")
-        }
         if (!region || !directory || !storagePath) {
             throw new InvalidUserDataException("Remote provider storage info required in config: 'region', 'directory' and 'storagePath' must be defined")
         }
-        true
+        return true
     }
-
 }

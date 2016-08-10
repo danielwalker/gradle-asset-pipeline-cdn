@@ -66,6 +66,8 @@ class AssetUpload extends DefaultTask {
             init()
         }
 
+        
+
         if (!localDirectory.exists()) {
             logger.error "Could not synchronize assets, ${localDirectory} local directory not found, please run assetCompile task first."
             return false
